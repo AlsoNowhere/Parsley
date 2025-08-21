@@ -1,0 +1,61 @@
+.photos {
+  .list();
+  .flex();
+  .scroll();
+  height: calc(100vh - 3rem - 3rem);
+  overflow-y: auto;
+
+  &__item {
+    position: relative;
+    .grid-3();
+    padding-bottom: 25%;
+  }
+}
+
+.photo {
+  position: absolute;
+  .middle();
+  width: calc(100% - 1rem);
+  height: calc(100% - 1rem);
+
+  &:hover .photo__button {
+    visibility: visible;
+  }
+
+  &__container {
+    position: relative;
+    left: 50%;
+    width: calc(100% - @size);
+    height: calc(100% - @size);
+    transform: translate(-50%, 0);
+  }
+
+  &__image {
+    position: absolute;
+    .middle();
+  }
+
+  &__label {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    height: @size;
+    line-height: @size;
+    white-space: nowrap;
+    text-align: center;
+    transform: translate(-50%, 0);
+    overflow: hidden;
+    .font-size-small();
+    .bold();
+    .snow-text-shadow();
+  }
+
+  &__button {
+    position: absolute;
+    bottom: @size;
+    right: @size;
+    visibility: hidden;
+    transition: 0s;
+  }
+}

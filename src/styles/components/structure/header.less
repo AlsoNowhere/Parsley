@@ -1,0 +1,35 @@
+.header {
+  z-index: 11;
+
+  h1 {
+    span + span {
+      font-size: 0.4em;
+    }
+  }
+
+  button {
+    &:hover {
+      span {
+        border-bottom-color: @black;
+      }
+
+      svg line {
+        stroke: #444;
+      }
+    }
+
+    > span {
+      border-bottom: 2px solid #fff;
+    }
+
+    svg line {
+      stroke: #fff;
+      stroke-width: 2px;
+    }
+
+    > span,
+    svg line {
+      .transition();
+    }
+  }
+}
