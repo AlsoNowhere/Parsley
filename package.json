@@ -1,0 +1,38 @@
+{
+  "name": "parsley",
+  "version": "0.1.0",
+  "description": "A photo manager",
+  "main": "./electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:app": "electron-packager . --overwrite --icon=src/img/neko_plus.ico",
+    "build:js": "rollup --config",
+    "watch:js": "rollup --config --watch",
+    "build:css": "lessc ./src/styles/index.less ./dist/styles/index.css",
+    "watch:css": "less-watch-compiler ./src/styles ./dist/styles index.less"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "mint": "file:../Mint"
+  },
+  "dependencies": {
+    "chive": "file:../Chive",
+    "sage": "file:../Sage",
+    "thyme": "file:../Thyme"
+  },
+  "devDependencies": {
+    "@electron/remote": "^2.0.9",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.5.0",
+    "electron": "^22.0.2",
+    "electron-packager": "^17.1.1",
+    "less": "^4.1.3",
+    "less-watch-compiler": "^1.16.3",
+    "rollup": "^2.78.1",
+    "tslib": "^2.6.3",
+    "typescript": "^4.8.3"
+  }
+}
