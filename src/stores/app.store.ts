@@ -30,6 +30,7 @@ class AppStore extends Store {
         // ** Here we set the function that runs when a folder is chosen.
         window.addEventListener("folderSelected", onFolderOpen);
 
+        // ** Load data gets data from localStorage and will trigger "folderSelected".
         await loadData();
 
         appStore.appPending = false;

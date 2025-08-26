@@ -1,3 +1,23 @@
 .tags {
-  .list;
+  .flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: @sizeSmall;
+
+  &__list {
+    .list;
+    flex-grow: 1;
+  }
+
+  &__item {
+    &.text {
+      display: block;
+      .line-height;
+    }
+
+    &-container {
+      .flex;
+      .space-between;
+    }
+  }
 }

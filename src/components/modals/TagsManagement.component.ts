@@ -1,4 +1,4 @@
-import { component, div, MintScope, node } from "mint";
+import { component, div, MintScope, node, refresh } from "mint";
 
 import { Button, closeModal, Modal, TModal } from "thyme";
 
@@ -6,6 +6,7 @@ import { ManageTags } from "../app/ManageTags.component";
 
 import { modalsStore } from "../../stores/modals.store";
 import { appStore } from "../../stores/app.store";
+import { pictursStore } from "../../stores/pictures.store";
 
 class TagsManagementComponent extends MintScope {
   tags: Array<string>;
@@ -21,12 +22,11 @@ class TagsManagementComponent extends MintScope {
       const { currentDir, currentPicture } = appStore;
       if (currentDir === null || currentPicture === null) return;
       this.tags = appStore.currentDir.tags[currentPicture.fullLocation] ?? [];
-
-      console.log("Tags: ", this.tags, appStore);
     };
 
     this.close = () => {
       closeModal(modalsStore, "tagsModalState");
+      refresh(pictursStore);
     };
   }
 }
@@ -41,10 +41,11 @@ export const TagsManagement = component(
       "[state]": "tagsModalState",
       title: "Tags",
       theme: "tomato",
+      class: "extend-modals",
       "[close]": "close",
       "[tags]": "tags",
     },
-    div({ class: "padding" }, [
+    div({ class: "tags" }, [
       node(ManageTags, { "[tags]": "tags" }),
 
       node(Button, { theme: "tomato", label: "Close", large: true, "[onClick]": "close" }),

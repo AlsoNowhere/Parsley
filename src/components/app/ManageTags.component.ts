@@ -1,21 +1,39 @@
-import { component, mFor, MintEvent, MintScope, node, refresh, span } from "mint";
+import { component, div, mFor, MintEvent, MintScope, mRef, node, refresh, span } from "mint";
 
 import { Button, Field, TField } from "thyme";
-import { appStore } from "../../stores/app.store";
+
+import { toast, wait } from "sage";
+
 import { saveData } from "../../logic/save.logic";
+
+import { appStore } from "../../stores/app.store";
+import { modalsStore } from "../../stores/modals.store";
 
 class ManageTagsComponent extends MintScope {
   tags: Array<string>;
 
+  formElementRef: null | HTMLFormElement;
+
   onSubmit: MintEvent<HTMLFormElement>;
+  deleteTag: () => void;
 
   constructor() {
     super();
 
+    const that = this;
+
     this.tags = [];
 
+    this.formElementRef = null;
+
     this.oneach = function () {
-      console.log("Cosy up tags: ", this);
+      if (modalsStore.tagsModalState !== "open") return;
+
+      (async () => {
+        await wait();
+
+        this.formElementRef.elements["tag"]?.focus();
+      })();
     };
 
     this.onSubmit = (event, element) => {
@@ -23,37 +41,80 @@ class ManageTagsComponent extends MintScope {
 
       const { currentDir, currentPicture } = appStore;
 
+      // ** If we have a situation where the data is not set (not loaded) then do nothing.
       if (currentDir === null || currentPicture === null) return;
 
       const { fullLocation } = currentPicture;
 
+      // ** Get the Tag value from the field.
       const field = element.elements["tag"];
 
-      const { value } = field;
+      // ** We want all tags to be consistent so we alter the value here.
+      const value = field.value.toLowerCase();
+
+      // ** Here we check for spaces. Spaces are not allowed in tags and so the user gets a message
+      // ** and a warning toast only.
+      if (value.includes(" ")) {
+        toast("Tags cannot includes spaces. Use underscore instead", "orange");
+        return;
+      }
+
+      // ** Reset the form field manually.
       field.value = "";
+
+      // ** Here we check if the tag is already on the photo and if so then we send a message to the user
+      // ** and then go no further to prevent duplicates.
+      if (this.tags.includes(value)) {
+        toast("Tags already exists.", "tomato");
+        return;
+      }
 
       this.tags.push(value);
 
+      // ** Create a place in the data so it can be saved.
       if (currentDir.tags[fullLocation] === undefined) {
         currentDir.tags[fullLocation] = this.tags;
       }
 
-      console.log("Fast and loose: ", value, this.tags, this);
-      console.log("Store: ", appStore);
-      console.log("Current: ", currentDir);
+      saveData();
+
+      refresh(that);
+    };
+
+    this.deleteTag = function () {
+      const index = this.tags.indexOf(this.tag);
+      this.tags.splice(index, 1);
 
       saveData();
 
-      refresh(this);
+      refresh(that);
     };
   }
 }
 
-export const ManageTags = component("div", ManageTagsComponent, {}, [
-  node("form", { "(submit)": "onSubmit" }, [
+export const ManageTags = component("<>", ManageTagsComponent, {}, [
+  node("form", { "(submit)": "onSubmit", ...mRef("formElementRef") }, [
     node<TField>(Field, { name: "tag", required: true }),
-    node(Button, { type: "submit", theme: "blueberry", label: "Add" }),
+
+    node(Button, { type: "submit", theme: "blueberry", label: "Add", large: true }),
   ]),
 
-  node("ul", { class: "tags" }, node("li", { ...mFor("tags"), mKey: "_x", class: "tags__item" }, span("{_x}"))),
+  node(
+    "ul",
+    { class: "tags__list" },
+    node("li", { ...mFor("tags"), mKey: "_x", class: "tags__item" }, [
+      div({ class: "tags__item-container" }, [
+        span({ class: "tags__item-text" }, "{_x}"),
+
+        node(Button, {
+          theme: "tomato",
+          icon: "trash-o",
+          square: true,
+          "[onClick]": "deleteTag",
+          "[tag]": "_x",
+          "[tags]": "tags",
+        }),
+      ]),
+    ]),
+  ),
 ]);
