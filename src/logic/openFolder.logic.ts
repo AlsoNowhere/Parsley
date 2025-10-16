@@ -1,7 +1,7 @@
 import { refresh } from "mint";
 
 import { appStore } from "../stores/app.store";
-import { pictursStore } from "../stores/pictures.store";
+import { picturesStore } from "../stores/pictures.store";
 
 import { Picture } from "../models/Picture.model";
 import { DirInfo } from "../models/DirInfo.model";
@@ -46,7 +46,15 @@ export const onFolderOpen = (event: CustomEvent) => {
   appStore.currentDir = dirInfo;
   appStore.currentFolder = folder;
 
-  pictursStore.list = list.map(([fileName, folder]) => new Picture(fileName, folder));
+  const { currentDir } = appStore;
 
-  refresh(pictursStore);
+  picturesStore.list = list.map(([fileName, folder]) => {
+    const fullLocation = folder + "\\" + fileName;
+
+    const tags = currentDir.tags[fullLocation];
+
+    return new Picture(fileName, folder, tags ?? []);
+  });
+
+  refresh(picturesStore);
 };

@@ -5,6 +5,8 @@ import { ISaveData } from "../interfaces/ISaveData.interface";
 import { storageKey } from "../data/constants.data";
 
 export const saveData = () => {
+  // ** TO DO: Save to file
+
   const { allDirs, defaultFolder } = appStore;
 
   const data: ISaveData = { allDirs };

@@ -2,13 +2,13 @@ import { component, mFor, MintScope, mRef, node } from "mint";
 
 import { PictureWrapper } from "./PictureWrapper.component";
 
-import { pictursStore } from "../../stores/pictures.store";
+import { picturesStore } from "../../stores/pictures.store";
 
 class PicturesComponent extends MintScope {
   constructor() {
     super();
 
-    pictursStore.connect(this);
+    picturesStore.connect(this);
   }
 }
 
@@ -22,11 +22,11 @@ export const Pictures = component(
     node(
       "li",
       {
-        ...mFor("list"),
+        ...mFor("resolvedList"),
         mKey: "fileName",
         class: "photos__item",
       },
-      node(PictureWrapper, { "[fileName]": "fileName", "[picture]": "_x" }),
+      node(PictureWrapper, { "[fileName]": "fileName", "[picture]": "_x", "[tags]": "tags" }),
     ),
   ),
 );

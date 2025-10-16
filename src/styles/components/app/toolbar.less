@@ -2,11 +2,31 @@
   position: relative;
   z-index: 1;
   .flex;
+  justify-content: space-between;
   .smoke-light-bg();
   .shadow();
 
   &__list {
     .list();
     .flex();
+  }
+
+  &__form {
+    .flex;
+    margin-bottom: 0;
+    padding-top: @gap;
+
+    &--tags {
+      margin-right: @sizeLarge;
+    }
+
+    &-label,
+    &-input {
+      margin-bottom: 0;
+    }
+
+    &-label {
+      padding-right: @gap;
+    }
   }
 }

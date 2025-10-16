@@ -12,7 +12,7 @@ class PictureWrapperComponent extends MintScope {
   classes: string;
   fileName: string;
   picture: Picture;
-  tags: Resolver<Array<string>>;
+  // tags: Resolver<Array<string>>;
   imgElementRef: HTMLImageElement;
 
   openTags: () => void;
@@ -25,14 +25,14 @@ class PictureWrapperComponent extends MintScope {
     this.fileName = "";
     this.picture = null;
 
-    this.tags = new Resolver(function () {
-      const { currentDir } = appStore;
-      const { fullLocation } = this.picture;
+    // this.tags = new Resolver(function () {
+    //   const { currentDir } = appStore;
+    //   const { fullLocation } = this.picture;
 
-      const tags = currentDir.tags[fullLocation];
+    //   const tags = currentDir.tags[fullLocation];
 
-      return tags ?? [];
-    });
+    //   return tags ?? [];
+    // });
 
     this.imgElementRef = null;
 

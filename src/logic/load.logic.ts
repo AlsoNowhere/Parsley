@@ -7,6 +7,8 @@ import { ISaveData } from "../interfaces/ISaveData.interface";
 import { storageKey } from "../data/constants.data";
 
 export const loadData = async () => {
+  // ** TO DO: Load from file
+
   const data = localStorage.getItem(storageKey);
   const parsed: ISaveData = JSON.parse(data ?? '{ "allDirs": {} }');
   const { allDirs, defaultFolder } = parsed;
