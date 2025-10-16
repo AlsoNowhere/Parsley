@@ -1,4 +1,4 @@
-import { component, div, mFor, MintEvent, MintScope, mRef, node, refresh, span } from "mint";
+import { component, div, mFor, mIf, MintEvent, MintScope, mRef, node, refresh, Resolver, span } from "mint";
 
 import { Button, Field, TField } from "thyme";
 
@@ -12,6 +12,8 @@ import { modalsStore } from "../../stores/modals.store";
 class ManageTagsComponent extends MintScope {
   tags: Array<string>;
 
+  noTags: Resolver<boolean>;
+
   formElementRef: null | HTMLFormElement;
 
   onSubmit: MintEvent<HTMLFormElement>;
@@ -23,6 +25,10 @@ class ManageTagsComponent extends MintScope {
     const that = this;
 
     this.tags = [];
+
+    this.noTags = new Resolver(function () {
+      return this.tags.length === 0;
+    });
 
     this.formElementRef = null;
 
@@ -99,9 +105,8 @@ export const ManageTags = component("<>", ManageTagsComponent, {}, [
     node(Button, { type: "submit", theme: "blueberry", label: "Add", large: true }),
   ]),
 
-  node(
-    "ul",
-    { class: "tags__list" },
+  node("ul", { class: "tags__list" }, [
+    node("li", { ...mIf("noTags"), class: "tags__item" }, " - no tags - "),
     node("li", { ...mFor("tags"), mKey: "_x", class: "tags__item" }, [
       div({ class: "tags__item-container" }, [
         span({ class: "tags__item-text" }, "{_x}"),
@@ -116,5 +121,5 @@ export const ManageTags = component("<>", ManageTagsComponent, {}, [
         }),
       ]),
     ]),
-  ),
+  ]),
 ]);

@@ -3,7 +3,7 @@ import { Store } from "mint";
 import { Picture } from "../models/Picture.model";
 import { DirInfo } from "../models/DirInfo.model";
 import { loadData } from "../logic/load.logic";
-import { onFolderOpen } from "../logic/open-folder.logic";
+import { onFolderOpen } from "../logic/openFolder.logic";
 
 import { ISaveData } from "../interfaces/ISaveData.interface";
 
@@ -14,6 +14,7 @@ class AppStore extends Store {
   defaultFolder: null | string;
   currentFolder: string;
   currentPicture: null | Picture;
+  tags: Array<string>;
 
   constructor() {
     super({
@@ -23,6 +24,7 @@ class AppStore extends Store {
       defaultFolder: null,
       currentFolder: null,
       currentPicture: null,
+      tags: [],
 
       oninit: async () => {
         appStore.appPending = true;

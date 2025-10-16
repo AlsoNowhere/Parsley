@@ -1,4 +1,4 @@
-import { openFolder } from "../logic/open-folder.logic";
+import { openFolder } from "../logic/openFolder.logic";
 
 import { appStore } from "../stores/app.store";
 

@@ -6,7 +6,7 @@ import { ManageTags } from "../app/ManageTags.component";
 
 import { modalsStore } from "../../stores/modals.store";
 import { appStore } from "../../stores/app.store";
-import { pictursStore } from "../../stores/pictures.store";
+import { picturesStore } from "../../stores/pictures.store";
 
 class TagsManagementComponent extends MintScope {
   tags: Array<string>;
@@ -26,7 +26,7 @@ class TagsManagementComponent extends MintScope {
 
     this.close = () => {
       closeModal(modalsStore, "tagsModalState");
-      refresh(pictursStore);
+      refresh(picturesStore);
     };
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "parsley",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A photo manager",
   "main": "./electron/main.js",
   "scripts": {
